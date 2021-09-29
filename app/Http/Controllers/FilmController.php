@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\FilmFilters;
 use App\Models\Film;
 use Illuminate\Http\Request;
 
@@ -15,9 +16,10 @@ class FilmController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(FilmFilters $filter)
     {
-        return response()->json(Film::all());
+
+        return response()->json(Film::Filter($filter)->get());
     }
 
 
