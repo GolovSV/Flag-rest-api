@@ -11,6 +11,8 @@ class Film extends Model
 
     public $timestamps = false;
 
+    protected $fillable = ['title', 'year', 'country', 'genre_id'];
+
     public function genre()
     {
         return $this->belongsTo(Genre::class);
