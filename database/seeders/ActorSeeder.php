@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Actor;
 use Illuminate\Database\Seeder;
 
 class ActorSeeder extends Seeder
@@ -13,6 +14,8 @@ class ActorSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Actor::factory()
+            ->count(50)
+            ->create();
     }
 }

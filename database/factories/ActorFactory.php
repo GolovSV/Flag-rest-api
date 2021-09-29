@@ -21,8 +21,12 @@ class ActorFactory extends Factory
      */
     public function definition()
     {
+        $gender = $this->faker->randomElement(['male', 'female']);
         return [
-            //
+            'name' =>$this->faker->firstName($gender),
+            'surname'=>$this->faker->lastName,
+            'gender'=>$gender,
+            'born'=>$this->faker->date('Y-m-d','-30 years'),
         ];
     }
 }
