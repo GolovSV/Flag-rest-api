@@ -17,7 +17,7 @@ class CreateActorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->char('gender')->nullable();
+            $table->string('gender')->nullable();
             $table->date('born')->nullable();
         });
     }
