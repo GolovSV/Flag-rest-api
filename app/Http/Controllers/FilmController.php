@@ -6,7 +6,6 @@ use App\Filters\FilmFilters;
 use App\Http\Requests\StoreFilmRequest;
 use App\Http\Resources\FilmResource;
 use App\Models\Film;
-use Illuminate\Http\Request;
 
 /**
  *
