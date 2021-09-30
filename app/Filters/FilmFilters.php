@@ -20,7 +20,7 @@ class FilmFilters extends QueryFilter
             ->join('actor_film', 'films.id', '=', 'actor_film.film_id')
             ->join('actors', 'actor_film.actor_id', '=', 'actors.id')
             ->select('films.*')
-            ->where('actors.surname', 'like', "%$parameter%");
+            ->where('actors.name', 'like', "%$parameter%");
     }
 
     public function sort($order = 'asc')

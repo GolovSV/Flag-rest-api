@@ -25,7 +25,6 @@ class StoreActorRequest extends FormRequest
     {
         return [
             'name' => 'required|max:100',
-            'surname' => 'required|max:100',
         ];
     }
 }

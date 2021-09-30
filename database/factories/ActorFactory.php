@@ -23,8 +23,7 @@ class ActorFactory extends Factory
     {
         $gender = $this->faker->randomElement(['male', 'female']);
         return [
-            'name' =>$this->faker->firstName($gender),
-            'surname'=>$this->faker->lastName,
+            'name' =>$this->faker->name($gender),
             'gender'=>$gender,
             'born'=>$this->faker->date('Y-m-d','-30 years'),
         ];
