@@ -11,7 +11,6 @@ abstract class QueryFilter
 
     protected $builder;
 
-    protected $delimiter = ',';
 
     public function __construct(Request $request)
     {
@@ -23,7 +22,7 @@ abstract class QueryFilter
         $this->builder = $builder;
 
         foreach ($this->filters() as $name => $value) {
-
+            if (!$value && $name !== 'sort') continue;
             if (method_exists($this, $name)) {
                 call_user_func_array([$this, $name], array_filter([$value]));
             }
@@ -36,8 +35,4 @@ abstract class QueryFilter
         return $this->request->query();
     }
 
-    protected function paramToArray($param)
-    {
-        return explode($this->delimiter, $param);
-    }
 }

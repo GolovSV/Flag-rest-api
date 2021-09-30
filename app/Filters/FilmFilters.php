@@ -2,21 +2,29 @@
 
 namespace App\Filters;
 
+use Illuminate\Support\Facades\DB;
+
 class FilmFilters extends QueryFilter
 {
-    public function genre($id)
+    public function genre($parameter)
     {
-        return $this->builder->where('genre_id', $id);
+        return $this->builder
+            ->LeftJoin('genres', 'films.genre_id', '=', 'genres.id')
+            ->select('films.*')
+            ->where('genres.title','like', "%$parameter%");
     }
 
-    public function actor($actorId)
+    public function actor($parameter)
     {
-        return $this->builder->join('actor_film', 'films.id', '=', 'actor_film.film_id')->select('films.*')->where('actor_id', $actorId);
+        return $this->builder
+            ->join('actor_film', 'films.id', '=', 'actor_film.film_id')
+            ->join('actors', 'actor_film.actor_id', '=', 'actors.id')
+            ->select('films.*')
+            ->where('actors.surname', 'like', "%$parameter%");
     }
-
 
     public function sort($order = 'asc')
     {
-        return $this->builder->orderBy('title', $order);
+        return $this->builder->orderBy('films.title', $order);
     }
 }
