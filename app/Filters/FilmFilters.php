@@ -11,7 +11,7 @@ class FilmFilters extends QueryFilter
         return $this->builder
             ->LeftJoin('genres', 'films.genre_id', '=', 'genres.id')
             ->select('films.*')
-            ->where('genres.title','like', "%$parameter%");
+            ->where('genres.title', 'like', "%$parameter%");
     }
 
     public function actor($parameter)
