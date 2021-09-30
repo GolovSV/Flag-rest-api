@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Filters\FilmFilters;
+use App\Http\Resources\FilmResource;
 use App\Models\Film;
 use Illuminate\Http\Request;
 
@@ -18,8 +19,7 @@ class FilmController extends Controller
      */
     public function index(FilmFilters $filter)
     {
-
-        return response()->json(Film::Filter($filter)->get());
+        return response()->json(FilmResource::collection(Film::Filter($filter)->get()));
     }
 
 
@@ -32,8 +32,7 @@ class FilmController extends Controller
     public function store(Request $request)
     {
         $film = Film::create($request->all());
-
-        return response()->json($film, 201);
+        return response()->json(new FilmResource(Film::find($film->id)), 201);
     }
 
     /**
@@ -44,7 +43,7 @@ class FilmController extends Controller
      */
     public function show(Film $film)
     {
-        return response()->json($film);
+        return response()->json(new FilmResource(Film::find($film->id)));
     }
 
 
@@ -58,7 +57,7 @@ class FilmController extends Controller
     public function update(Request $request, Film $film)
     {
         $film->update($request->all());
-        return response()->json($film, 200);
+        return response()->json(new FilmResource(Film::find($film->id)));
     }
 
     /**
