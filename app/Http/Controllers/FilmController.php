@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Filters\FilmFilters;
+use App\Http\Requests\StoreFilmRequest;
 use App\Http\Resources\FilmResource;
 use App\Models\Film;
 use Illuminate\Http\Request;
@@ -25,13 +26,12 @@ class FilmController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param StoreFilmRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreFilmRequest $request)
     {
-        $film = Film::create($request->all());
+        $film = Film::firstOrCreate($request->all());
         return response()->json(new FilmResource(Film::find($film->id)), 201);
     }
 
@@ -54,7 +54,7 @@ class FilmController extends Controller
      * @param \App\Models\Film $film
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Film $film)
+    public function update(StoreFilmRequest $request, Film $film)
     {
         $film->update($request->all());
         return response()->json(new FilmResource(Film::find($film->id)));
