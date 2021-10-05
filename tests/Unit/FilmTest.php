@@ -19,9 +19,9 @@ class FilmTest extends TestCase
      */
     public function test_get_all_films()
     {
-        $genre = Genre::factory()->count(1)->create();
+        $genre = Genre::factory()->create();
         Film::factory()->count(5)->create(['genre_id' => $genre->first()->id]);
-        $response = $this->getJson('/api/films/');
+        $response = $this->getJson(route('films.index'));
         $response
             ->assertStatus(200)
             ->assertJsonStructure(['*' => [
@@ -39,8 +39,8 @@ class FilmTest extends TestCase
     public function test_get_film_by_id()
     {
         $genre = Genre::factory()->create();
-        Film::factory()->count(5)->create(['genre_id' => $genre->id]);
-        $response = $this->getJson('/api/films/1');
+        $films = Film::factory()->count(5)->create(['genre_id' => $genre->id]);
+        $response = $this->getJson(route('films.show', ['film' => $films->random()]));
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
@@ -57,9 +57,9 @@ class FilmTest extends TestCase
      */
     public function test_get_film_by_non_existent_id()
     {
-        $genre = Genre::factory()->count(1)->create();
-        Film::factory()->create(['genre_id' => $genre->first()->id]);
-        $response = $this->getJson('/api/films/' . 999);
+        $genre = Genre::factory()->create();
+        $film = Film::factory()->create(['genre_id' => $genre->first()->id]);
+        $response = $this->getJson(route('films.show', ['film' => 999]));
         $response
             ->assertStatus(404)
             ->assertJsonStructure([
@@ -72,7 +72,7 @@ class FilmTest extends TestCase
      */
     public function test_store_film()
     {
-        $genre = Genre::factory()->count(1)->create();
+        $genre = Genre::factory()->create();
 
         $payload = [
             'title' => 'название фильма',
@@ -80,7 +80,7 @@ class FilmTest extends TestCase
             'country' => 'РФ',
             'genre_id' => $genre->first()->id,
         ];
-        $response = $this->postJson('/api/films', $payload);
+        $response = $this->postJson(route('films.store'), $payload);
         $response
             ->assertStatus(201)
             ->assertJsonStructure([
@@ -97,7 +97,7 @@ class FilmTest extends TestCase
      */
     public function test_store_film_with_missing_title()
     {
-        $genre = Genre::factory()->count(1)->create();
+        $genre = Genre::factory()->create();
         $film = Film::factory()->create(['genre_id' => $genre->first()->id]);
 
         $payload = [
@@ -106,7 +106,7 @@ class FilmTest extends TestCase
             'country' => $film->country,
             'genre_id' => $film->genre->id,
         ];
-        $response = $this->postJson('/api/films', $payload);
+        $response = $this->postJson(route('films.store'), $payload);
         $response
             ->assertStatus(422)
             ->assertJsonStructure([
@@ -122,7 +122,7 @@ class FilmTest extends TestCase
      */
     public function test_update_film()
     {
-        $genre = Genre::factory()->count(1)->create();
+        $genre = Genre::factory()->create();
         $film = Film::factory()->create(['genre_id' => $genre->first()->id]);
 
         $payload = [
@@ -131,7 +131,7 @@ class FilmTest extends TestCase
             'country' => 'USA',
             'genre_id' => $film->genre->id,
         ];
-        $response = $this->putJson("/api/films/" . $film->id, $payload);
+        $response = $this->putJson(route('films.update', ['film' => $film]), $payload);
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
@@ -148,7 +148,7 @@ class FilmTest extends TestCase
      */
     public function test_update_film_with_missing_title()
     {
-        $genre = Genre::factory()->count(1)->create();
+        $genre = Genre::factory()->create();
         $film = Film::factory()->create(['genre_id' => $genre->first()->id]);
 
         $payload = [
@@ -157,7 +157,7 @@ class FilmTest extends TestCase
             'country' => 'USA',
             'genre_id' => $film->genre->id,
         ];
-        $response = $this->putJson("/api/films/" . $film->id, $payload);
+        $response = $this->putJson(route('films.update', ['film' => $film]), $payload);
         $response->assertStatus(422)
             ->assertJsonStructure([
                 'message',
@@ -172,9 +172,9 @@ class FilmTest extends TestCase
      */
     public function test_delete_film()
     {
-        $genre = Genre::factory()->count(1)->create();
+        $genre = Genre::factory()->create();
         $film = Film::factory()->create(['genre_id' => $genre->first()->id]);
-        $response = $this->deleteJson('/api/films/' . $film->id);
+        $response = $this->deleteJson(route('films.destroy', ['film' => $film]));
         $response->assertStatus(204);
     }
 
@@ -183,9 +183,9 @@ class FilmTest extends TestCase
      */
     public function test_delete_film_id_does_not_exist()
     {
-        $genre = Genre::factory()->count(1)->create();
+        $genre = Genre::factory()->create();
         Film::factory()->create(['genre_id' => $genre->first()->id]);
-        $response = $this->deleteJson('/api/films/' . 999);
+        $response = $this->deleteJson(route('films.destroy', ['film' => 999]));
         $response
             ->assertStatus(404)
             ->assertJsonStructure([
