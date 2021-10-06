@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Genre;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FilmResource extends JsonResource
@@ -18,7 +19,7 @@ class FilmResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'year' => $this->year,
+            'year' => Carbon::parse($this->year)->format('Y'),
             'country' => $this->country,
             'genre' => $this->genre->title,
         ];
