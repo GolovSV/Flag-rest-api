@@ -22,10 +22,10 @@ class FilmFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->unique()->words(2,true),
-            'year'=> $this->faker->year(),
+            'title' => $this->faker->unique()->words(2, true),
+            'year' => $this->faker->date('Y-m-d', '-10 years'),
             'country' => $this->faker->country,
-            'genre_id' => rand(1,15),
+            'genre_id' => rand(1, 15),
         ];
     }
 }
