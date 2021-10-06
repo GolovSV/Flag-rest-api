@@ -19,20 +19,13 @@
 
 Дополнительное задание:
 
-    Это задание является не обязательным, но будет плюсом его решение. 
     Покрыть юнит тестами 50+% кода.
 
+Deployment:
 
-
-deployment
-
-    1 Клонируем проект;
-
-    2 composer install. 
-
-    3 Указываем реквизиты БД в файле .env
-
-    4 Запускаем миграции, сидер
-
-    5 запускаем тесты
+    1. Clone project;
+    2. Composer install;
+    3. Write DB info in .env file;
+    4. Run migrations, seeders;
+    5. Run tests;
 
