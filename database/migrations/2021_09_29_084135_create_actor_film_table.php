@@ -14,7 +14,6 @@ class CreateActorFilmTable extends Migration
     public function up()
     {
         Schema::create('actor_film', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('actor_id')->nullable();
             $table->unsignedBigInteger('film_id')->nullable();
             $table->foreign('actor_id')->references('id')->on('actors')

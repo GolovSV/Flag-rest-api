@@ -16,7 +16,7 @@ class CreateFilmsTable extends Migration
         Schema::create('films', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('year')->nullable();
+            $table->date('year')->nullable();
             $table->string('country')->nullable();
             $table->foreignId('genre_id')->nullable()->references('id')->on('genres')
                 ->cascadeOnUpdate()
